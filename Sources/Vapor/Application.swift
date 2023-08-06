@@ -98,6 +98,7 @@ public final class Application {
     public func run() throws {
         do {
             try self.start()
+            try self.lifecycle.handlers.forEach { try $0.didBoot(self) }
             try self.running?.onStop.wait()
         } catch {
             self.logger.report(error: error)
@@ -124,7 +125,6 @@ public final class Application {
         }
         self.isBooted = true
         try self.lifecycle.handlers.forEach { try $0.willBoot(self) }
-        try self.lifecycle.handlers.forEach { try $0.didBoot(self) }
     }
     
     public func shutdown() {
