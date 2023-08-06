@@ -123,8 +123,8 @@ public final class Application {
         guard !self.isBooted else {
             return
         }
-        self.isBooted = true
         try self.lifecycle.handlers.forEach { try $0.willBoot(self) }
+        self.isBooted = true
     }
     
     public func shutdown() {
